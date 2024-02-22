@@ -1,8 +1,9 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
+    kotlin("kapt")
     id("kotlin-parcelize")
+//    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -38,6 +39,12 @@ android {
     buildFeatures {
         viewBinding = true
     }
+//    buildscript {
+//        val hilt_version = "2.28-alpha"
+//        dependencies {
+//            classpath("com.google.dagger:hilt-android-gradle-plugin:$hilt_version")
+//        }
+//    }
 }
 
 dependencies {
@@ -55,7 +62,10 @@ dependencies {
     val room_version = "2.5.0"
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
+    // To use Kotlin annotation processing tool (kapt)
     kapt("androidx.room:room-compiler:$room_version")
+    // Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$room_version")
 
     // Navigation
     val nav_version = "2.5.3"
@@ -67,4 +77,12 @@ dependencies {
     // Testing Navigation
     androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
 
+    // hilt
+//    implementation("com.google.dagger:hilt-android:2.44")
+//    kapt("com.google.dagger:hilt-android-compiler:2.44")
 }
+
+// Allow references to generated code
+//kapt {
+//    correctErrorTypes = true
+//}
