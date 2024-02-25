@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     id("kotlin-parcelize")
-//    id("com.google.dagger.hilt.android")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -39,12 +39,6 @@ android {
     buildFeatures {
         viewBinding = true
     }
-//    buildscript {
-//        val hilt_version = "2.28-alpha"
-//        dependencies {
-//            classpath("com.google.dagger:hilt-android-gradle-plugin:$hilt_version")
-//        }
-//    }
 }
 
 dependencies {
@@ -78,8 +72,11 @@ dependencies {
     androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
 
     // hilt
-//    implementation("com.google.dagger:hilt-android:2.44")
-//    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation ("com.google.dagger:hilt-android:2.50")
+    kapt ("com.google.dagger:hilt-compiler:2.50")
+}
+kapt {
+    correctErrorTypes = true
 }
 
 // Allow references to generated code
