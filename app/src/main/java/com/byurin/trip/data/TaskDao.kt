@@ -15,11 +15,11 @@ interface TaskDao {
     fun getTasks(): Flow<List<Task>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(task: Task)
+    fun insert(task: Task) // 앞에 suspend 키워드가 없는 이유는 Room 라이브러리가 이미 스레드에서 실행되기 때문이다.
 
     @Update
-    fun update(task: Task)
+    fun update(task: Task) // 이하동문
 
     @Delete
-    fun delete(task: Task)
+    fun delete(task: Task) // 이하동문
 }
