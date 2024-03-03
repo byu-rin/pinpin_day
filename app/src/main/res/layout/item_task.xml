@@ -23,13 +23,13 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:layout_toEndOf="@id/cb_completed"
-        android:layout_toStartOf="@id/label_priority"
+        android:layout_toStartOf="@id/iv_priority"
         android:textColor="@color/black" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/label_priority"
+        android:id="@+id/iv_priority"
         android:src="@drawable/baseline_error_outline_24"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"/>
