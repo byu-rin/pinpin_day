@@ -54,7 +54,7 @@ class TaskFragment : Fragment(R.layout.fragment_tasks) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_sort_by_name -> {
-
+                viewModel.sortOrder.value = SortOrder.BY_NAME
                 true
             }
 
@@ -65,7 +65,7 @@ class TaskFragment : Fragment(R.layout.fragment_tasks) {
 
             R.id.action_hide_completed_tasks -> {
                 item.isChecked = !item.isChecked
-
+                viewModel.hideCompleted.value = item.isChecked
                 true
             }
 
