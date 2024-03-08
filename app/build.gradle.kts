@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("kotlin-android")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("kotlin-parcelize")
@@ -74,13 +75,20 @@ dependencies {
     // hilt
     implementation ("com.google.dagger:hilt-android:2.50")
     kapt ("com.google.dagger:hilt-compiler:2.50")
-//    kapt("androidx.hilt:hilt-compiler:1.2.0")
 
     // ViewModel
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
 
-    // flow
-//    implementation ("org.jetbrains.kotlinx:kotlinx=coroutines-core:1.3.3")
+    // Preference DataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.datastore:datastore:1.0.0")
+
+    // coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
+    // liveData
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+
 }
 kapt {
     correctErrorTypes = true
