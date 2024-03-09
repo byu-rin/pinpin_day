@@ -2,38 +2,45 @@ package com.byurin.trip.ui.tasks
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.byurin.trip.data.PreferenceManager
+import com.byurin.trip.data.SortOrder
 import com.byurin.trip.data.TaskDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
 class TasksViewModel @Inject constructor(
-    private val taskDao: TaskDao
+    private val taskDao: TaskDao,
+    private val preferenceManager: PreferenceManager
 ) : ViewModel() {
 
     val searchQuery = MutableStateFlow("")
 
-    val sortOrder = MutableStateFlow(SortOrder.BY_DATE)
-    val hideCompleted = MutableStateFlow(false)
+    val preferenceFlow = preferenceManager.preferenceFlow
+
 
     private val tasksFlow = combine(
         searchQuery,
-        sortOrder,
-        hideCompleted
-    ) { query, sortOrder, hideCompleted ->
-        Triple(query, sortOrder, hideCompleted)
-    }.flatMapLatest { (query, sortOrder, hideCompleted) ->
-        taskDao.getTasks(query, sortOrder, hideCompleted)
+        preferenceFlow
+    ) { query, filterPreferences ->
+        Pair(query, filterPreferences)
+    }.flatMapLatest { (query, filterPreferences) ->
+        taskDao.getTasks(query, filterPreferences.sortOrder, filterPreferences.hideCompleted)
+    }
+
+    fun onSortOrderSelected(sortOrder: SortOrder) = viewModelScope.launch {
+        preferenceManager.updateSortOrder(sortOrder)
+    }
+
+    fun onHideCompletedClick(hideCompleted: Boolean) = viewModelScope.launch {
+        preferenceManager.updateHideCompleted(hideCompleted)
     }
 
     val tasks = tasksFlow.asLiveData()
-}
-
-enum class SortOrder {
-    BY_NAME,
-    BY_DATE
 }
