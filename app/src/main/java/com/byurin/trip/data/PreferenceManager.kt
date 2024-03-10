@@ -11,7 +11,9 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -63,3 +65,11 @@ class PreferenceManager @Inject constructor(
         val HIDE_COMPLETED = booleanPreferencesKey("hide_completed")
     }
 }
+
+//fun main() = runBlocking {
+//    val preferenceManager = PreferenceManager()
+//    preferenceManager.updateSortOrder(SortOrder.BY_NAME)
+//    preferenceManager.updateHideCompleted(true)
+//    val preferences = preferenceManager.preferenceFlow.first()
+//    println(preferences)
+//}

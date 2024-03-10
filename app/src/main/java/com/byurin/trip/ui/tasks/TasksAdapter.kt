@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.byurin.trip.data.Task
 import com.byurin.trip.databinding.ItemTaskBinding
 
-class TasksAdapter : ListAdapter<Task, TasksAdapter.TasksViewHolder>(DiffCallback()) {
+// Task 목록 받아와서 RecyclerView에 표시
+
+class TasksAdapter(private val listener: OnItemClickListener) : ListAdapter<Task, TasksAdapter.TasksViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TasksViewHolder {
         val binding = ItemTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -20,8 +22,28 @@ class TasksAdapter : ListAdapter<Task, TasksAdapter.TasksViewHolder>(DiffCallbac
         holder.bind(currentItem)
     }
 
-    class TasksViewHolder(private val binding: ItemTaskBinding) :
+    inner class TasksViewHolder(private val binding: ItemTaskBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+            init {
+                binding.apply {
+                    root.setOnClickListener {
+                        val position = adapterPosition
+                        if (position != RecyclerView.NO_POSITION) {
+                            val task = getItem(position)
+                            listener.onItemClick(task)
+                        }
+                    }
+                    cbCompleted.setOnClickListener {
+                        val position = adapterPosition
+                        if (position != RecyclerView.NO_POSITION) {
+                            val task = getItem(position)
+                            listener.onCheckBoxClick(task, cbCompleted.isChecked)
+                        }
+                    }
+                }
+            }
+
         fun bind(task: Task) {
             binding.apply {
                 cbCompleted.isChecked = task.completed
@@ -32,6 +54,12 @@ class TasksAdapter : ListAdapter<Task, TasksAdapter.TasksViewHolder>(DiffCallbac
         }
     }
 
+    interface OnItemClickListener {
+        fun onItemClick(task: Task)
+        fun onCheckBoxClick(task: Task, isChecked: Boolean)
+    }
+
+    // 두 Task 목록을 비교하여 변경사항을 찾아내는 콜백
     class DiffCallback : DiffUtil.ItemCallback<Task>() {
         override fun areItemsTheSame(oldItem: Task, newItem: Task) =
             oldItem.id == newItem.id
