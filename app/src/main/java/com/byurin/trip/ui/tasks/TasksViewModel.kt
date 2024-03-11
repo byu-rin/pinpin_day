@@ -8,10 +8,12 @@ import com.byurin.trip.data.SortOrder
 import com.byurin.trip.data.Task
 import com.byurin.trip.data.TaskDao
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
@@ -47,7 +49,9 @@ class TasksViewModel @Inject constructor(
     fun onTaskSelected(task: Task) {
     }
     fun onTaskCheckedChanged(task: Task, isChecked: Boolean) = viewModelScope.launch {
-        taskDao.update(task.copy(completed = isChecked))
+        withContext(Dispatchers.IO) {
+            taskDao.update(task.copy(completed = isChecked))
+        }
     }
 
 }

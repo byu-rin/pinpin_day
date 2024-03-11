@@ -1,6 +1,7 @@
 package com.byurin.trip.ui.tasks
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -16,8 +17,10 @@ import com.byurin.trip.data.Task
 import com.byurin.trip.databinding.FragmentTasksBinding
 import com.byurin.trip.util.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class TaskFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClickListener {
@@ -29,21 +32,22 @@ class TaskFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClick
 
         val binding = FragmentTasksBinding.bind(view)
 
-        val tasksAdapter = TasksAdapter(this)
+        val taskAdapter = TasksAdapter(this)
 
         binding.apply {
             tasksRv.apply {
-                adapter = tasksAdapter
+                adapter = taskAdapter
                 layoutManager = LinearLayoutManager(requireContext())
                 setHasFixedSize(true)
             }
         }
 
         viewModel.tasks.observe(viewLifecycleOwner) {
-            tasksAdapter.submitList(it)
+            taskAdapter.submitList(it)
         }
         setHasOptionsMenu(true)
     }
+
     override fun onItemClick(task: Task) {
         viewModel.onTaskSelected(task)
     }
@@ -62,9 +66,15 @@ class TaskFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClick
             viewModel.searchQuery.value = it
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            menu.findItem(R.id.action_hide_completed_tasks).isChecked =
-                viewModel.preferenceFlow.first().hideCompleted
+        Log.d("TaskFragment", "Attempting to access preferences on IO thread")
+
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            val preferences = viewModel.preferenceFlow.first().hideCompleted
+            Log.d("TaskFragment", "hideCompleted=$preferences")
+            withContext(Dispatchers.Main) {
+                menu.findItem(R.id.action_hide_completed_tasks).isChecked =
+                    preferences
+            }
         }
     }
 
