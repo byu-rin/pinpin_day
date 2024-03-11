@@ -40,6 +40,11 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    packagingOptions {
+        exclude("META-INF/AL2.0")
+        exclude("META-INF/LGPL2.1")
+        exclude("META-INF/atomicfu.kotlin_module")
+    }
 }
 
 dependencies {
@@ -61,6 +66,7 @@ dependencies {
     kapt("androidx.room:room-compiler:$room_version")
     // Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
+    androidTestImplementation("androidx.room:room-testing:$room_version")
 
     // Navigation
     val nav_version = "2.7.7"
@@ -76,18 +82,20 @@ dependencies {
     implementation ("com.google.dagger:hilt-android:2.50")
     kapt ("com.google.dagger:hilt-compiler:2.50")
 
-    // ViewModel
+    // Lifecycle components
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-common-java8:2.7.0")
 
     // Preference DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.datastore:datastore:1.0.0")
 
-    // coroutines
+    // Kotlin components(coroutines)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
-    // liveData
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.20")
+
 
 }
 kapt {
