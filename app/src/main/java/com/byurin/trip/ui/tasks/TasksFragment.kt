@@ -33,7 +33,6 @@ class TaskFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClick
         val binding = FragmentTasksBinding.bind(view)
 
         val taskAdapter = TasksAdapter(this)
-
         binding.apply {
             tasksRv.apply {
                 adapter = taskAdapter
@@ -68,13 +67,9 @@ class TaskFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClick
 
         Log.d("TaskFragment", "Attempting to access preferences on IO thread")
 
-        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            val preferences = viewModel.preferenceFlow.first().hideCompleted
-            Log.d("TaskFragment", "hideCompleted=$preferences")
-            withContext(Dispatchers.Main) {
-                menu.findItem(R.id.action_hide_completed_tasks).isChecked =
-                    preferences
-            }
+        viewLifecycleOwner.lifecycleScope.launch {
+            menu.findItem(R.id.action_hide_completed_tasks).isChecked =
+                viewModel.preferenceFlow.first().hideCompleted
         }
     }
 
@@ -100,6 +95,7 @@ class TaskFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClick
 
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

@@ -46,12 +46,15 @@ class TasksViewModel @Inject constructor(
     fun onHideCompletedClick(hideCompleted: Boolean) = viewModelScope.launch {
         preferenceManager.updateHideCompleted(hideCompleted)
     }
+
     fun onTaskSelected(task: Task) {
     }
+
     fun onTaskCheckedChanged(task: Task, isChecked: Boolean) = viewModelScope.launch {
         withContext(Dispatchers.IO) {
             taskDao.update(task.copy(completed = isChecked))
         }
+
     }
 
 }
