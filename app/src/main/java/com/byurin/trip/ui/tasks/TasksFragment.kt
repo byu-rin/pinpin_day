@@ -18,11 +18,10 @@ import com.byurin.trip.data.SortOrder
 import com.byurin.trip.data.Task
 import com.byurin.trip.databinding.FragmentTasksBinding
 import com.byurin.trip.util.onQueryTextChanged
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class TaskFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClickListener {
@@ -61,6 +60,21 @@ class TaskFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClick
         viewModel.tasks.observe(viewLifecycleOwner) {
             taskAdapter.submitList(it)
         }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.tasksEvent.collect { event ->
+                when (event) {
+                    is TasksViewModel.TasksEvent.ShowUndoDeleteTaskMessage -> {
+                        Snackbar.make(requireView(), "Task deleted", Snackbar.LENGTH_LONG)
+                            .setAction("UNDO") {
+                                viewModel.onUndoDeleteClick(event.task)
+                            }.show()
+                    }
+
+                    else -> {}
+                }
+            }
+        }
+
         setHasOptionsMenu(true)
     }
 
@@ -109,7 +123,6 @@ class TaskFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClick
             }
 
             R.id.action_delete_all_completed_tasks -> {
-
                 true
             }
 

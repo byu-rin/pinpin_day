@@ -19,6 +19,7 @@
         <CheckBox
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/cb_important"
             android:text="Important task" />
 
         <TextView
