@@ -2,6 +2,7 @@ pluginManagement {
     repositories {
         google()
         mavenCentral()
+        maven("https://naver.jfrog.io/artifactory/maven/")
         gradlePluginPortal()
     }
 }
@@ -10,8 +11,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven("https://naver.jfrog.io/artifactory/maven/")
     }
 }
+
 rootProject.name = "trip"
 include(":app")
  

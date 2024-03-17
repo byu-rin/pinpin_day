@@ -39,6 +39,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 }
 
@@ -90,6 +91,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
     // liveData
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    // naver map api
+    implementation("com.naver.maps:map-sdk:3.17.0")
 
 }
 kapt {
