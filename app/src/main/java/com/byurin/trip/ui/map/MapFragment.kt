@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.byurin.trip.R
 
-class MapFragment : Fragment() {
+class MapFragment :Fragment() {
 
     companion object {
         fun newInstance() = MapFragment()

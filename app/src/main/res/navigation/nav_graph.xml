@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--suppress NavigationFile -->
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,4 +11,12 @@
         android:name="com.byurin.trip.ui.tasks.TaskFragment"
         android:label="fragment_tasks"
         tools:layout="@layout/fragment_tasks" />
+
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.byurin.trip.ui.map.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
+
+
 </navigation>
