@@ -4,10 +4,11 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.map.MapFragment">
+        tools:context=".ui.map.NaverMapFragment"
+        android:id="@+id/naver_map_fragment">
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/map_fragment"
+            android:id="@+id/map_view"
             android:name="com.naver.maps.map.MapFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"

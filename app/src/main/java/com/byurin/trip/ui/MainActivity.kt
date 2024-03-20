@@ -3,9 +3,13 @@ package com.byurin.trip.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.byurin.trip.R
 import com.byurin.trip.databinding.ActivityMainBinding
-import com.byurin.trip.ui.map.MapFragment
+import com.byurin.trip.ui.map.NaverMapFragment
+import com.byurin.trip.ui.tasks.TasksFragment
+import com.naver.maps.map.MapFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -16,28 +20,28 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
+        replaceFragment(TasksFragment())
 
-        // BottomNavigationView에 대한 바인딩
-        val bottomNavigationView = binding.bottomNavigation
+        binding.bottomNavigationView.setOnItemSelectedListener {
+            when (it.itemId) {
 
-        // FragmentContainerView에 대한 바인딩
-        val fragmentContainerView = binding.mapFragment
+                R.id.bottom_tasks -> replaceFragment(TasksFragment())
+                R.id.bottom_map -> replaceFragment(NaverMapFragment())
 
-        // bottomNavigationView 아이템 클릭 리스너 설정
-        bottomNavigationView.setOnItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.bottom_map -> {
-                    // map_item을 클릭할 때 맵 프래그먼트 표시
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.map_fragment, Fragment())
-                        .commit()
-                    true
+
+                else -> {
+
                 }
-                // 다른 아이템에 대한 처리 추가
-                else -> false
             }
+            true
         }
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragment_cv, fragment)
+        fragmentTransaction.commit()
     }
 }

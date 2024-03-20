@@ -1,16 +1,16 @@
 package com.byurin.trip.ui.map
 
-import android.app.Fragment
+import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.byurin.trip.R
 
-class MapFragment :Fragment() {
+class NaverMapFragment :Fragment() {
 
     companion object {
-        fun newInstance() = MapFragment()
+        fun newInstance() = NaverMapFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +23,6 @@ class MapFragment :Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_map, container, false)
+        return inflater.inflate(R.layout.fragment_map_naver, container, false)
     }
 }

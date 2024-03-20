@@ -2,6 +2,6 @@ package com.byurin.trip.ui.map
 
 import androidx.lifecycle.ViewModel
 
-class MapViewModel : ViewModel() {
+class NaverMapViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 }

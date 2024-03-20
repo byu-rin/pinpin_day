@@ -8,15 +8,15 @@
 
     <fragment
         android:id="@+id/taskFragment"
-        android:name="com.byurin.trip.ui.tasks.TaskFragment"
+        android:name="com.byurin.trip.ui.tasks.TasksFragment"
         android:label="fragment_tasks"
         tools:layout="@layout/fragment_tasks" />
 
     <fragment
         android:id="@+id/mapFragment"
-        android:name="com.byurin.trip.ui.map.MapFragment"
+        android:name="com.byurin.trip.ui.map.NaverMapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map_naver" />
 
 
 </navigation>

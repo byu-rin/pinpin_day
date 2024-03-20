@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class TaskFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClickListener {
+class TasksFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClickListener {
 
     private val viewModel: TasksViewModel by viewModels()
 
@@ -33,10 +33,10 @@ class TaskFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClick
 
         val binding = FragmentTasksBinding.bind(view)
 
-        val taskAdapter = TasksAdapter(this)
+        val tasksAdapter = TasksAdapter(this)
         binding.apply {
             tasksRv.apply {
-                adapter = taskAdapter
+                adapter = tasksAdapter
                 layoutManager = LinearLayoutManager(requireContext())
                 setHasFixedSize(true)
             }
@@ -51,20 +51,20 @@ class TaskFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClick
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val task = taskAdapter.currentList[viewHolder.adapterPosition]
+                    val task = tasksAdapter.currentList[viewHolder.adapterPosition]
                     viewModel.onTaskSwiped(task)
                 }
             }).attachToRecyclerView(tasksRv)
         }
 
         viewModel.tasks.observe(viewLifecycleOwner) {
-            taskAdapter.submitList(it)
+            tasksAdapter.submitList(it)
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.tasksEvent.collect { event ->
                 when (event) {
                     is TasksViewModel.TasksEvent.ShowUndoDeleteTaskMessage -> {
-                        Snackbar.make(requireView(), "Task deleted", Snackbar.LENGTH_LONG)
+                        Snackbar.make(requireView(), "Tasks deleted", Snackbar.LENGTH_LONG)
                             .setAction("UNDO") {
                                 viewModel.onUndoDeleteClick(event.task)
                             }.show()
@@ -96,7 +96,7 @@ class TaskFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClick
             viewModel.searchQuery.value = it
         }
 
-        Log.d("TaskFragment", "Attempting to access preferences on IO thread")
+        Log.d("TasksFragment", "Attempting to access preferences on IO thread")
 
         viewLifecycleOwner.lifecycleScope.launch {
             menu.findItem(R.id.action_hide_completed_tasks).isChecked =
