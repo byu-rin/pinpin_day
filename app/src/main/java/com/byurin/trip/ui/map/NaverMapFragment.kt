@@ -25,4 +25,11 @@ class NaverMapFragment :Fragment() {
     ): View {
         return inflater.inflate(R.layout.fragment_map_naver, container, false)
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // MapFragment 생성 시, Appbar 텍스트를 "지도"로 설정
+        requireActivity().title = "지도"
+    }
 }
