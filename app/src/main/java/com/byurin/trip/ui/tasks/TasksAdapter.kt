@@ -19,7 +19,7 @@ class TasksAdapter(private val listener: OnItemClickListener) : ListAdapter<Task
     }
     override fun onBindViewHolder(holder: TasksViewHolder, position: Int) {
         val currentItem = getItem(position)
-        holder.bind(currentItem)
+//        holder.bind(currentItem)
     }
 
     inner class TasksViewHolder(private val binding: ItemTaskBinding) :
@@ -44,14 +44,14 @@ class TasksAdapter(private val listener: OnItemClickListener) : ListAdapter<Task
                 }
             }
 
-        fun bind(task: Task) {
-            binding.apply {
-                cbCompleted.isChecked = task.completed
-                tvName.text = task.name
-                tvName.paint.isStrikeThruText = task.completed
-                ivPriority.isVisible = task.important
-            }
-        }
+//        fun bind(task: Task) {
+//            binding.apply {
+//                cbCompleted.isChecked = task.completed
+//                tvName.text = task.name
+//                tvName.paint.isStrikeThruText = task.completed
+//                ivPriority.isVisible = task.important
+//            }
+//        }
     }
 
     interface OnItemClickListener {
