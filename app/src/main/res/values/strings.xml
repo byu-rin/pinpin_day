@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">pinpinday</string>
+    <string name="task_item_title">visit HarryPorter</string>
+    <string name="task_item_runtime">10:00 AM - 11:00 AM</string>
 </resources>

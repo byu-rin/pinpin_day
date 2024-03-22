@@ -34,13 +34,13 @@ class TasksAdapter(private val listener: OnItemClickListener) : ListAdapter<Task
                             listener.onItemClick(task)
                         }
                     }
-                    cbCompleted.setOnClickListener {
-                        val position = adapterPosition
-                        if (position != RecyclerView.NO_POSITION) {
-                            val task = getItem(position)
-                            listener.onCheckBoxClick(task, cbCompleted.isChecked)
-                        }
-                    }
+//                    cbCompleted.setOnClickListener {
+//                        val position = adapterPosition
+//                        if (position != RecyclerView.NO_POSITION) {
+//                            val task = getItem(position)
+//                            listener.onCheckBoxClick(task, cbCompleted.isChecked)
+//                        }
+//                    }
                 }
             }
 

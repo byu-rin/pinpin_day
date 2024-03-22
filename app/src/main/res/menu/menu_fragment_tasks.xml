@@ -4,36 +4,25 @@
 
     <item
         android:id="@+id/action_search"
-        android:icon="@drawable/ic_search"
+        android:icon="@drawable/search_icon"
         android:title="Search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always|collapseActionView" />
 
     <item
-        android:icon="@drawable/ic_sort"
+        android:icon="@drawable/sort_icon"
         android:title="Sort"
         app:showAsAction="always">
 
         <menu>
             <item
                 android:id="@+id/action_sort_by_name"
-                android:title="Sort by name" />
+                android:title="Sort by time" />
             <item
                 android:id="@+id/action_sort_by_date_created"
-                android:title="Sort by date created" />
+                android:title="Sort by important" />
         </menu>
 
     </item>
-
-    <item
-        android:id="@+id/action_hide_completed_tasks"
-        android:checkable="true"
-        android:title="Hide completed"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_delete_all_completed_tasks"
-        android:title="Delete all completed"
-        app:showAsAction="never" />
 
 </menu>

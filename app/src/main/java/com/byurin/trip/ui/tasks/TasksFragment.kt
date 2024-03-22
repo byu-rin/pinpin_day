@@ -113,10 +113,10 @@ class TasksFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClic
 
             Log.d("TasksFragment", "Attempting to access preferences on IO thread")
 
-            viewLifecycleOwner.lifecycleScope.launch {
-                menu.findItem(R.id.action_hide_completed_tasks).isChecked =
-                    viewModel.preferenceFlow.first().hideCompleted
-            }
+//            viewLifecycleOwner.lifecycleScope.launch {
+//                menu.findItem(R.id.action_hide_completed_tasks).isChecked =
+//                    viewModel.preferenceFlow.first().hideCompleted
+//            }
         }
 
         override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -128,16 +128,6 @@ class TasksFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClic
 
                 R.id.action_sort_by_date_created -> {
                     viewModel.onSortOrderSelected(SortOrder.BY_DATE)
-                    true
-                }
-
-                R.id.action_hide_completed_tasks -> {
-                    item.isChecked = !item.isChecked
-                    viewModel.onHideCompletedClick(item.isChecked)
-                    true
-                }
-
-                R.id.action_delete_all_completed_tasks -> {
                     true
                 }
 
