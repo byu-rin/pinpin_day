@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -24,6 +25,9 @@ import com.byurin.trip.databinding.FragmentTasksBinding
 import com.byurin.trip.util.onQueryTextChanged
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 @AndroidEntryPoint
 class TasksFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClickListener {
@@ -38,14 +42,48 @@ class TasksFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClic
         return inflater.inflate(R.layout.fragment_tasks, container, false)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_fragment_tasks, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+
+        Log.d("TasksFragment", "Attempting to access preferences on IO thread")
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        return when (item.itemId) {
+            R.id.action_edit -> {
+                // task 수정
+                viewModel.onOptionMenuSelected(OptionMenu.EDIT)
+                true
+            }
+
+            R.id.action_delete -> {
+                // task 삭제
+                viewModel.onOptionMenuSelected(OptionMenu.DELETE)
+                true
+            }
+
+            R.id.action_share -> {
+                // task 공유
+                viewModel.onOptionMenuSelected(OptionMenu.SHARE)
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         // TaskFragment 생성 시, Appbar 텍스트를 "일정으로 설정
         requireActivity().title = "일정"
 
         // ViewModel 인스턴스 초기화
         val tasksViewModel = ViewModelProvider(this).get(TasksViewModel::class.java)
+
 
         // 메뉴 클릭 이벤트 처리
 //        tasksViewModel.preferenceFlow.asLiveData().observe(viewLifecycleOwner) { preferences ->
@@ -109,45 +147,13 @@ class TasksFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClic
 //            }
 //
 //            setHasOptionsMenu(true)
-        }
-
-        override fun onItemClick(task: Task) {
-//            viewModel.onTaskSelected(task)
-        }
-
-        override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-            inflater.inflate(R.menu.menu_fragment_tasks, menu)
-
-            val searchItem = menu.findItem(R.id.action_search)
-            val searchView = searchItem.actionView as SearchView
-
-            searchView.onQueryTextChanged {
-                viewModel.searchQuery.value = it
-            }
-
-            Log.d("TasksFragment", "Attempting to access preferences on IO thread")
-
-        }
-
-//        override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//            return when (item.itemId) {
-//                R.id.action_edit -> {
-//                    viewModel.onOptionMenuSelected(OptionMenu.EDIT)
-//                    true
-//                }
-//
-//                R.id.action_delete -> {
-//                    viewModel.onOptionMenuSelected(OptionMenu.DELETE)
-//                    true
-//                }
-//
-//                R.id.action_share -> {
-//                    viewModel.onOptionMenuSelected(OptionMenu.SHARE)
-//                    true
-//                }
-//
-//                else -> super.onOptionsItemSelected(item)
-//            }
-//        }
     }
+
+    override fun onItemClick(task: Task) {
+//            viewModel.onTaskSelected(task)
+    }
+
+
+}
+
 

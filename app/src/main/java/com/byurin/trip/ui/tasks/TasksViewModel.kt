@@ -29,12 +29,20 @@ class TasksViewModel @Inject constructor(
 
     val preferenceFlow = preferenceManager.preferenceFlow
 
-//    private val tasksEventChannel = Channel<TasksEvent>()
-//    val tasksEvent = tasksEventChannel.receiveAsFlow()
+    private val tasksEventChannel = Channel<TasksEvent>()
+    val tasksEvent = tasksEventChannel.receiveAsFlow()
 
     fun getTasks(optionMenu: OptionMenu) = viewModelScope.launch {
         taskDao.getTasks(searchQuery.value, optionMenu).collect {
             // 결과 처리
+        }
+    }
+
+
+    fun onOptionMenuSelected(optionMenu: OptionMenu) {
+        viewModelScope.launch {
+            preferenceManager.updateOptionMenu(optionMenu)
+            getTasks(optionMenu)
         }
     }
 }
@@ -72,11 +80,11 @@ class TasksViewModel @Inject constructor(
 //        }
 //    }
 
-//    sealed class TasksEvent {
-//        data class ShowUndoDeleteTaskMessage(val task: Task) : TasksEvent()
-//        object NavigateToAddTaskScreen : TasksEvent()
-//        object NavigateToEditTaskScreen : TasksEvent()
-//        data class ShowTaskSavedConfirmationMessage(val msg: String) : TasksEvent()
-//        data class ShowTaskSavedErrorMessage(val msg: String) : TasksEvent()
-//    }
+    sealed class TasksEvent {
+        data class ShowUndoDeleteTaskMessage(val task: Task) : TasksEvent()
+        object NavigateToAddTaskScreen : TasksEvent()
+        object NavigateToEditTaskScreen : TasksEvent()
+        data class ShowTaskSavedConfirmationMessage(val msg: String) : TasksEvent()
+        data class ShowTaskSavedErrorMessage(val msg: String) : TasksEvent()
+    }
 //}

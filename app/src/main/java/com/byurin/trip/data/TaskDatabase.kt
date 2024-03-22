@@ -24,14 +24,14 @@ abstract class TaskDatabase : RoomDatabase() {
             val dao = database.get().taskDao()
 
             applicationScope.launch {
-                dao.insert(Task("visit HarryPorter Studio", 240312, 240312, 10, 11, true))
-                dao.insert(Task("have a lunch at the sushi restaurant",240312, 240312, 12, 1))
-                dao.insert(Task("get some coffee", 240312, 240312, 2, 3))
-                dao.insert(Task("buy some water", 240312, 240312, 3, 4))
-                dao.insert(Task("visit to humanmade", 240312, 240312, 4, 5))
-                dao.insert(Task("Departure to shibuya", 240312, 240312, 5, 6))
-                dao.insert(Task("eat a okonomi-yaki", 240312, 240312, 7, 8))
-                dao.insert(Task("playground Fuji-Q Highland", 240312, 240312, 9, 10))
+                dao.insert(Task("visit HarryPorter Studio", 240312, 240312, 10, ))
+                dao.insert(Task("have a lunch at the sushi restaurant",240312, 240312, 12))
+                dao.insert(Task("get some coffee", 240312, 240312, 2))
+                dao.insert(Task("buy some water", 240312, 240312, 3))
+                dao.insert(Task("visit to humanmade", 240312, 240312, 4))
+                dao.insert(Task("Departure to shibuya", 240312, 240312, 5))
+                dao.insert(Task("eat a okonomi-yaki", 240312, 240312, 7))
+                dao.insert(Task("playground Fuji-Q Highland", 240312, 240312, 9))
             }
         }
     }

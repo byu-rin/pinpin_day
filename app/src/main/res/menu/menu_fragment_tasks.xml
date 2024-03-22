@@ -10,20 +10,23 @@
         app:showAsAction="always|collapseActionView" />
 
     <item
-        android:icon="@drawable/sort_icon"
+        android:icon="@drawable/more_icon"
         android:title="Detail"
         app:showAsAction="always">
 
         <menu>
             <item
                 android:id="@+id/action_edit"
-                android:title="Edit" />
+                android:title="Edit"
+                app:showAsAction="never" />
             <item
                 android:id="@+id/action_delete"
-                android:title="Delete" />
+                android:title="Delete"
+                app:showAsAction="never" />
             <item
                 android:id="@+id/action_share"
-                android:title="Share" />
+                android:title="Share"
+                app:showAsAction="never" />
         </menu>
 
     </item>
