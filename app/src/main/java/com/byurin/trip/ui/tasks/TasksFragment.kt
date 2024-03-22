@@ -11,19 +11,19 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.byurin.trip.R
-import com.byurin.trip.data.SortOrder
+import com.byurin.trip.data.OptionMenu
 import com.byurin.trip.data.Task
 import com.byurin.trip.databinding.FragmentTasksBinding
 import com.byurin.trip.util.onQueryTextChanged
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TasksFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClickListener {
@@ -44,61 +44,75 @@ class TasksFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClic
         // TaskFragment 생성 시, Appbar 텍스트를 "일정으로 설정
         requireActivity().title = "일정"
 
-        val binding = FragmentTasksBinding.bind(view)
+        // ViewModel 인스턴스 초기화
+        val tasksViewModel = ViewModelProvider(this).get(TasksViewModel::class.java)
 
-        val tasksAdapter = TasksAdapter(this)
-        binding.apply {
-            tasksRv.apply {
-                adapter = tasksAdapter
-                layoutManager = LinearLayoutManager(requireContext())
-                setHasFixedSize(true)
-            }
-                ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
-                    0,
-                    ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-                ) {
-                    override fun onMove(
-                        recyclerView: RecyclerView,
-                        viewHolder: RecyclerView.ViewHolder,
-                        target: RecyclerView.ViewHolder
-                    ): Boolean {
-                        return false
-                    }
+        // 메뉴 클릭 이벤트 처리
+//        tasksViewModel.preferenceFlow.asLiveData().observe(viewLifecycleOwner) { preferences ->
+//            when (preferences.optionMenu) {
+//                OptionMenu.EDIT -> {
+//                    Log.d("TasksFragment", "Edit menu selected")
+//                }
+//                OptionMenu.DELETE -> {
+//                    Log.d("TasksFragment", "Delete menu selected")
+//                }
+//                OptionMenu.SHARE -> {
+//                    Log.d("TasksFragment", "Share menu selected")
+//                }
+//            }
+//        }
 
-                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                        val task = tasksAdapter.currentList[viewHolder.adapterPosition]
-                        viewModel.onTaskSwiped(task)
-                    }
-                }).attachToRecyclerView(tasksRv)
-            }
-
-            viewModel.tasks.observe(viewLifecycleOwner) {
-                tasksAdapter.submitList(it)
-            }
-            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                viewModel.tasksEvent.collect { event ->
-                    when (event) {
-                        is TasksViewModel.TasksEvent.ShowUndoDeleteTaskMessage -> {
-                            Snackbar.make(requireView(), "Tasks deleted", Snackbar.LENGTH_LONG)
-                                .setAction("UNDO") {
-                                    viewModel.onUndoDeleteClick(event.task)
-                                }.show()
-                        }
-
-                        else -> {}
-                    }
-                }
-            }
-
-            setHasOptionsMenu(true)
+//        val binding = FragmentTasksBinding.bind(view)
+//
+//        val tasksAdapter = TasksAdapter(this)
+//        binding.apply {
+//            tasksRv.apply {
+//                adapter = tasksAdapter
+//                layoutManager = LinearLayoutManager(requireContext())
+//                setHasFixedSize(true)
+//            }
+//                ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+//                    0,
+//                    ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+//                ) {
+//                    override fun onMove(
+//                        recyclerView: RecyclerView,
+//                        viewHolder: RecyclerView.ViewHolder,
+//                        target: RecyclerView.ViewHolder
+//                    ): Boolean {
+//                        return false
+//                    }
+//
+//                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+//                        val task = tasksAdapter.currentList[viewHolder.adapterPosition]
+//                        viewModel.onTaskSwiped(task)
+//                    }
+//                }).attachToRecyclerView(tasksRv)
+//            }
+//
+//            viewModel.tasks.observe(viewLifecycleOwner) {
+//                tasksAdapter.submitList(it)
+//            }
+//            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+//                viewModel.tasksEvent.collect { event ->
+//                    when (event) {
+//                        is TasksViewModel.TasksEvent.ShowUndoDeleteTaskMessage -> {
+//                            Snackbar.make(requireView(), "Tasks deleted", Snackbar.LENGTH_LONG)
+//                                .setAction("UNDO") {
+//                                    viewModel.onUndoDeleteClick(event.task)
+//                                }.show()
+//                        }
+//
+//                        else -> {}
+//                    }
+//                }
+//            }
+//
+//            setHasOptionsMenu(true)
         }
 
         override fun onItemClick(task: Task) {
-            viewModel.onTaskSelected(task)
-        }
-
-        override fun onCheckBoxClick(task: Task, isChecked: Boolean) {
-            viewModel.onTaskCheckedChanged(task, isChecked)
+//            viewModel.onTaskSelected(task)
         }
 
         override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -113,26 +127,27 @@ class TasksFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClic
 
             Log.d("TasksFragment", "Attempting to access preferences on IO thread")
 
-//            viewLifecycleOwner.lifecycleScope.launch {
-//                menu.findItem(R.id.action_hide_completed_tasks).isChecked =
-//                    viewModel.preferenceFlow.first().hideCompleted
+        }
+
+//        override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//            return when (item.itemId) {
+//                R.id.action_edit -> {
+//                    viewModel.onOptionMenuSelected(OptionMenu.EDIT)
+//                    true
+//                }
+//
+//                R.id.action_delete -> {
+//                    viewModel.onOptionMenuSelected(OptionMenu.DELETE)
+//                    true
+//                }
+//
+//                R.id.action_share -> {
+//                    viewModel.onOptionMenuSelected(OptionMenu.SHARE)
+//                    true
+//                }
+//
+//                else -> super.onOptionsItemSelected(item)
 //            }
-        }
-
-        override fun onOptionsItemSelected(item: MenuItem): Boolean {
-            return when (item.itemId) {
-                R.id.action_sort_by_name -> {
-                    viewModel.onSortOrderSelected(SortOrder.BY_NAME)
-                    true
-                }
-
-                R.id.action_sort_by_date_created -> {
-                    viewModel.onSortOrderSelected(SortOrder.BY_DATE)
-                    true
-                }
-
-                else -> super.onOptionsItemSelected(item)
-            }
-        }
+//        }
     }
 

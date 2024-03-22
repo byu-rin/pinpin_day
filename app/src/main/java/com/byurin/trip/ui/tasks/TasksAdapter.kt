@@ -56,7 +56,6 @@ class TasksAdapter(private val listener: OnItemClickListener) : ListAdapter<Task
 
     interface OnItemClickListener {
         fun onItemClick(task: Task)
-        fun onCheckBoxClick(task: Task, isChecked: Boolean)
     }
 
     // 두 Task 목록을 비교하여 변경사항을 찾아내는 콜백

@@ -10,8 +10,11 @@ import java.text.DateFormat
 @Parcelize
 data class Task(
     val name : String, // Task 이름
+    val start_date : Int, // Task 시작 날짜
+    val end_date : Int, // Task 종료 날짜
+    val start_time : Int, // Task 시작 시간
+    val end_time : Int, // Task 종료 시간
     val important : Boolean = false, // Task 중요도 (기본값은 false)
-    val completed : Boolean = false, // Task 완료 여부 (기본값은 false)
     val created: Long = System.currentTimeMillis(), // Task 생성된 시간(기본값은 현재 시간)
     @PrimaryKey(autoGenerate = true) val id: Int = 0 // Task 고유 식별자 (자동 생성, 기본값 = 0)
 ) : Parcelable {

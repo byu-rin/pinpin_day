@@ -18,13 +18,13 @@ import javax.inject.Singleton
 
 private const val TAG = "PreferenceManager"
 
-enum class SortOrder { BY_NAME, BY_DATE }
+enum class OptionMenu { EDIT, DELETE, SHARE }
 
 private val Context.dataStore : DataStore<Preferences> by preferencesDataStore(
     name = TAG
 )
 
-data class FilterPreferences(val sortOrder: SortOrder, val hideCompleted: Boolean)
+data class OptionPreferences(val optionMenu: OptionMenu, val hideCompleted: Boolean)
 
 @Singleton
 class PreferenceManager @Inject constructor(
@@ -40,21 +40,15 @@ class PreferenceManager @Inject constructor(
             }
         }
         .map { preferences ->
-            val sortOrder = SortOrder.valueOf(
-                (preferences[PreferencesKeys.SORT_ORDER] ?: SortOrder.BY_DATE.name).toString()
+            val optionMenu = OptionMenu.valueOf(
+                (preferences[PreferencesKeys.SORT_ORDER] ?: OptionMenu.DELETE.name).toString()
             )
-            val hideCompleted = preferences[PreferencesKeys.HIDE_COMPLETED] ?: false
-            FilterPreferences(sortOrder, hideCompleted)
+
         }
 
-    suspend fun updateSortOrder(sortOrder: SortOrder) {
+    suspend fun updateOptionMenu(optionMenu: OptionMenu) {
         context.dataStore.edit { preferences ->
-            preferences[PreferencesKeys.SORT_ORDER] = sortOrder.name
-        }
-    }
-    suspend fun updateHideCompleted(hideCompleted: Boolean) {
-        context.dataStore.edit { preferences ->
-            preferences[PreferencesKeys.HIDE_COMPLETED] = hideCompleted
+            preferences[PreferencesKeys.SORT_ORDER] = optionMenu.name
         }
     }
 
@@ -63,11 +57,3 @@ class PreferenceManager @Inject constructor(
         val HIDE_COMPLETED = booleanPreferencesKey("hide_completed")
     }
 }
-
-//fun main() = runBlocking {
-//    val preferenceManager = PreferenceManager()
-//    preferenceManager.updateSortOrder(SortOrder.BY_NAME)
-//    preferenceManager.updateHideCompleted(true)
-//    val preferences = preferenceManager.preferenceFlow.first()
-//    println(preferences)
-//}

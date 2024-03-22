@@ -11,16 +11,19 @@
 
     <item
         android:icon="@drawable/sort_icon"
-        android:title="Sort"
+        android:title="Detail"
         app:showAsAction="always">
 
         <menu>
             <item
-                android:id="@+id/action_sort_by_name"
-                android:title="Sort by time" />
+                android:id="@+id/action_edit"
+                android:title="Edit" />
             <item
-                android:id="@+id/action_sort_by_date_created"
-                android:title="Sort by important" />
+                android:id="@+id/action_delete"
+                android:title="Delete" />
+            <item
+                android:id="@+id/action_share"
+                android:title="Share" />
         </menu>
 
     </item>
