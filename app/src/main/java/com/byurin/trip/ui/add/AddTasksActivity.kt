@@ -50,6 +50,16 @@ class AddTasksActivity : AppCompatActivity() {
         val datePickerDialog = DatePickerDialog(this, null, viewModel.year, viewModel.month, viewModel.day)
         // datePickerDialog 의 header 숨김
         datePickerDialog.datePicker.findViewById<View>(resources.getIdentifier("date_picker_header", "id", "android"))?.visibility = View.GONE
+
+        // DatePickerDialog 에서 날짜 선택 시 호출되는 콜백 설정
+        datePickerDialog.datePicker.init(viewModel.year, viewModel.month, viewModel.day) { view, year, monthOfYear, dayOfMonth ->
+            // LiveData 를 통해 선택된 날짜를 Observer 에게 전달
+            viewModel.setSelectedDate(year, monthOfYear, dayOfMonth)
+            // 선택된 날짜를 tv 에 반영
+            binding.taskStartDate.text = "${monthOfYear + 1}월 ${dayOfMonth}일"
+            // 날짜 선택 후 dialog 닫기
+            datePickerDialog.dismiss()
+        }
         datePickerDialog.show()
     }
 }
