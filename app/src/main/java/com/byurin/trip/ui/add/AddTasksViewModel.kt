@@ -29,6 +29,7 @@ class AddTasksViewModel : ViewModel() {
         return dateFormat.format(cal.time)
     }
 
+    // 선택된 날짜 설정
     fun setSelectedDate(year: Int, month: Int, dayOfMonth: Int) {
         cal.set(year, month, dayOfMonth)
         _selectedDate.value = cal.time
