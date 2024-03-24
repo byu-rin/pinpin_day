@@ -20,30 +20,26 @@ class AddTasksActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddTasksBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+
+    override fun onResume() {
+        super.onResume()
 //        enableEdgeToEdge()
-
-        setupCurrentDate()
-
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-//            insets
-//        }
-
-        // 현재 날짜 가져오기
-        val cal = Calendar.getInstance()
-        val year = cal.get(Calendar.YEAR)
-        val month = cal.get(Calendar.MONTH)
-        val day = cal.get(Calendar.DAY_OF_MONTH)
-
-        // DatePicker Header 없애기
-        val datePickerDialog = DatePickerDialog(this, null, year, month, day)
-        datePickerDialog.datePicker.findViewById<View>(resources.getIdentifier("date_picker_header", "id", "android"))?.visibility = View.GONE
-        datePickerDialog.show()
-
         binding.taskStartDate.setOnClickListener {
+
             // DatePicker 보이기
-            binding.datePicker.visibility = View.VISIBLE
+            setupCurrentDate()
+            // 현재 날짜 가져오기
+            val cal = Calendar.getInstance()
+            val year = cal.get(Calendar.YEAR)
+            val month = cal.get(Calendar.MONTH)
+            val day = cal.get(Calendar.DAY_OF_MONTH)
+
+            // DatePicker Header 없애기
+            val datePickerDialog = DatePickerDialog(this, null, year, month, day)
+            datePickerDialog.datePicker.findViewById<View>(resources.getIdentifier("date_picker_header", "id", "android"))?.visibility = View.GONE
+            datePickerDialog.show()
+//            binding.datePicker.visibility = View.VISIBLE
         }
 
         binding.datePicker.setOnDateChangedListener { view, year, monthOfYear, dayOfMonth ->
@@ -63,5 +59,4 @@ class AddTasksActivity : AppCompatActivity() {
         val dateFormat = SimpleDateFormat("M월 d일 (E)", Locale.getDefault())
         return dateFormat.format(calendar.time)
     }
-
 }

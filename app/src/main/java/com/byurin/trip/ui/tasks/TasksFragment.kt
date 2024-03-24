@@ -1,5 +1,6 @@
 package com.byurin.trip.ui.tasks
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -33,6 +34,8 @@ import java.util.Locale
 class TasksFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClickListener {
 
     private val viewModel: TasksViewModel by viewModels()
+    private var _binding: FragmentTasksBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -76,13 +79,18 @@ class TasksFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClic
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        _binding = FragmentTasksBinding.bind(view)
 
         // TaskFragment 생성 시, Appbar 텍스트를 "일정으로 설정
         requireActivity().title = "일정"
 
         // ViewModel 인스턴스 초기화
         val tasksViewModel = ViewModelProvider(this).get(TasksViewModel::class.java)
+
+        // FloatingAction Button 클릭 시 AddTasksActivity로 이동
+        binding.addTaskFab.setOnClickListener {
+            startActivity(Intent(requireContext(), AddTasksActivity::class.java))
+        }
 
 
         // 메뉴 클릭 이벤트 처리
@@ -152,8 +160,6 @@ class TasksFragment : Fragment(R.layout.fragment_tasks), TasksAdapter.OnItemClic
     override fun onItemClick(task: Task) {
 //            viewModel.onTaskSelected(task)
     }
-
-
 }
 
 
