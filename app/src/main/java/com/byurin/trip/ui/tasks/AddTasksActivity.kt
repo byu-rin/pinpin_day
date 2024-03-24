@@ -20,6 +20,21 @@ class AddTasksActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddTasksBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        // 현재 날짜로 데이터 초기화
+        setupCurrentDate()
+    }
+
+    // 시작 날짜와 현재 날짜를 디바이스 현재 날짜로 셋팅
+    private fun setupCurrentDate() {
+        val currrentDate = getCurrentDate()
+        binding.taskStartDate.text = currrentDate
+        binding.taskEndDate.text = currrentDate
+    }
+    // 디바이스 캘린더에서 현재 날짜 가져오기
+    private fun getCurrentDate(): String {
+        val calendar = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("M월 d일 (E)", Locale.getDefault())
+        return dateFormat.format(calendar.time)
     }
 
     override fun onResume() {
@@ -27,8 +42,7 @@ class AddTasksActivity : AppCompatActivity() {
 //        enableEdgeToEdge()
         binding.taskStartDate.setOnClickListener {
 
-            // DatePicker 보이기
-            setupCurrentDate()
+
             // 현재 날짜 가져오기
             val cal = Calendar.getInstance()
             val year = cal.get(Calendar.YEAR)
@@ -48,15 +62,5 @@ class AddTasksActivity : AppCompatActivity() {
         }
     }
 
-    // 현재 날짜 설정
-    private fun setupCurrentDate() {
-        val currrentDate = getCurrentDate()
-        binding.taskStartDate.text = currrentDate
-        binding.taskEndDate.text = currrentDate
-    }
-    private fun getCurrentDate(): String {
-        val calendar = Calendar.getInstance()
-        val dateFormat = SimpleDateFormat("M월 d일 (E)", Locale.getDefault())
-        return dateFormat.format(calendar.time)
-    }
+
 }
