@@ -1,12 +1,14 @@
 package com.byurin.trip.ui.add
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.byurin.trip.R
 import com.byurin.trip.databinding.ActivityAddTasksBinding
 
@@ -20,6 +22,12 @@ class AddTasksActivity : AppCompatActivity() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+
+        // LiveData 를 통해 선택된 날짜를 Observer 에게 전달
+        viewModel.startTime.observe(this, Observer { startTime ->
+            // LiveData 값 변경될 때마다 해당 tv 업데이트
+            binding.taskStartTime.text = startTime
+        })
 
         // 현재 날짜로 데이터 초기화
         setupCurrentDate()
@@ -63,13 +71,24 @@ class AddTasksActivity : AppCompatActivity() {
             showDatePicker(binding.taskEndDate)
         }
 
-        binding.datePicker.setOnDateChangedListener { view, year, monthOfYear, dayOfMonth ->
-            // TimePicker 보이기
-            binding.timePicker.visibility = View.VISIBLE
+        // 시작 시간 클릭 시 TimePickerDialog 보이기
+        binding.taskStartTime.setOnClickListener {
+            val timePickerDialog = TimePickerDialog(
+                this,
+                { _, hourOfDay, minute ->
+                    // TODO(textview 업데이트 안됨. LiveData 문제인지 Binding 문제인지 확인 필요)
+                    // TODO(디버깅 학습)
+                    // 사용자가 선택한 시간과 분을 LiveData 에 업데이트
+                    viewModel.setStartTime(hourOfDay, minute)
+                    // LiveData 값이 변경되었으므로 해당 TextView를 업데이트
+                    binding.taskStartTime.text = "${hourOfDay}:${minute}"
+                },
+                viewModel.currentHour,
+                viewModel.currentMinute,
+                true
+            )
+            // TimePickerDialog 보이기
+            timePickerDialog.show()
         }
-
     }
-
-    // datePickerDialog 보이기 함수
-
 }
