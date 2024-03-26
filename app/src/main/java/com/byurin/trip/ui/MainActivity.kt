@@ -5,14 +5,10 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
 import com.byurin.trip.R
-import com.byurin.trip.R.id.action_edit
 import com.byurin.trip.databinding.ActivityMainBinding
 import com.byurin.trip.ui.map.NaverMapFragment
 import com.byurin.trip.ui.tasks.TasksFragment
-import com.naver.maps.map.MapFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

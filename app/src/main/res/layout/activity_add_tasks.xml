@@ -1,191 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
         <variable
             name="viewModel"
             type="com.byurin.trip.ui.add.AddTasksViewModel" />
     </data>
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_color"
-    tools:context=".ui.add.AddTasksActivity">
-
-    <LinearLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/task_title_et"
-            android:hint="Title"
-            android:layout_gravity="center"
-            android:textColor="@color/text_color"
-            android:textSize="20sp"
-            android:maxLines="1"
-            android:inputType="text"/>
+        android:layout_height="match_parent"
+        android:background="@color/bg_color"
+        tools:context=".ui.add.AddTasksActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <EditText
+                android:id="@+id/task_title_et"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:hint="Title"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@color/text_color"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/task_time_set_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/time_icon"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/task_start_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:text="3월 10일"
+                        android:textColor="@color/text_color"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toEndOf="@id/task_time_set_icon"
+                        app:layout_constraintTop_toTopOf="@id/task_time_set_icon" />
+
+                    <TextView
+                        android:id="@+id/task_start_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="15:00"
+                        android:textColor="@color/text_color"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="@id/task_start_date"
+                        app:layout_constraintStart_toStartOf="@id/task_start_date"
+                        app:layout_constraintTop_toBottomOf="@id/task_start_date" />
+
+                    <ImageView
+                        android:id="@+id/arrow_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/arrow_icon"
+                        app:layout_constraintBottom_toTopOf="@id/task_end_time"
+                        app:layout_constraintEnd_toStartOf="@id/task_end_date"
+                        app:layout_constraintStart_toEndOf="@id/task_start_date"
+                        app:layout_constraintTop_toBottomOf="@id/task_end_date" />
+
+                    <TextView
+                        android:id="@+id/task_end_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="32dp"
+                        android:text="3월 11일"
+                        android:textColor="@color/text_color"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/task_time_set_icon" />
+
+
+                    <TextView
+                        android:id="@+id/task_end_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="18:00"
+                        android:textColor="@color/text_color"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="@id/task_end_date"
+                        app:layout_constraintStart_toStartOf="@id/task_end_date"
+                        app:layout_constraintTop_toBottomOf="@id/task_end_date" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <DatePicker
+                android:id="@+id/date_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="12dp"
+                android:visibility="gone" />
+
+            <TimePicker
+                android:id="@+id/time_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="12dp"
+                android:timePickerMode="spinner"
+                android:visibility="gone"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                android:padding="16dp">
 
                 <ImageView
+                    android:id="@+id/task_location_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/task_time_set_icon"
-                    android:src="@drawable/time_icon"
-                    android:layout_marginStart="16dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    android:src="@drawable/location_icon" />
 
                 <TextView
+                    android:id="@+id/task_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/task_start_date"
-                    android:text="3월 10일"
-                    android:textColor="@color/text_color"
-                    android:textSize="16dp"
                     android:layout_marginStart="24dp"
-                    app:layout_constraintStart_toEndOf="@id/task_time_set_icon"
-                    app:layout_constraintTop_toTopOf="@id/task_time_set_icon"/>
-
-                <TextClock
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/task_start_time"
-                    android:textSize="16dp"
+                    android:text="위치"
                     android:textColor="@color/text_color"
-                    android:layout_marginTop="12dp"
-                    app:layout_constraintStart_toStartOf="@id/task_start_date"
-                    app:layout_constraintEnd_toEndOf="@id/task_start_date"
-                    app:layout_constraintTop_toBottomOf="@id/task_start_date" />
+                    android:textSize="16dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                android:padding="16dp">
 
                 <ImageView
+                    android:id="@+id/tassk_memo_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/arrow_icon"
-                    android:src="@drawable/arrow_icon"
-                    app:layout_constraintStart_toEndOf="@id/task_start_date"
-                    app:layout_constraintEnd_toStartOf="@id/task_end_date"
-                    app:layout_constraintTop_toBottomOf="@id/task_end_date"
-                    app:layout_constraintBottom_toTopOf="@id/tast_end_time"/>
+                    android:src="@drawable/memo_icon" />
 
                 <TextView
+                    android:id="@+id/task_memo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/task_end_date"
-                    android:text="3월 11일"
+                    android:layout_marginStart="24dp"
+                    android:text="메모"
                     android:textColor="@color/text_color"
-                    android:textSize="16dp"
-                    android:layout_marginEnd="24dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/task_time_set_icon"/>
+                    android:textSize="16dp" />
 
-
-                <TextClock
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tast_end_time"
-                    android:textSize="16dp"
-                    android:textColor="@color/text_color"
-                    android:layout_marginTop="12dp"
-                    app:layout_constraintEnd_toEndOf="@id/task_end_date"
-                    app:layout_constraintStart_toStartOf="@id/task_end_date"
-                    app:layout_constraintTop_toBottomOf="@id/task_end_date"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
         </LinearLayout>
 
-        <DatePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/date_picker"
-            android:layout_gravity="center"
-            android:layout_marginTop="24dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="12dp"
-            android:visibility="gone"/>
-
-        <TimePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/time_picker"
-            android:layout_gravity="center"
-            android:layout_marginTop="12dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="12dp"
-            android:visibility="gone"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:padding="16dp"
-            android:layout_marginTop="16dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/task_location_icon"
-                android:src="@drawable/location_icon" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/task_location"
-                android:text="위치"
-                android:textColor="@color/text_color"
-                android:textSize="16dp"
-                android:layout_marginStart="24dp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:padding="16dp"
-            android:layout_marginTop="16dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tassk_memo_icon"
-                android:src="@drawable/memo_icon" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/task_memo"
-                android:text="메모"
-                android:textColor="@color/text_color"
-                android:textSize="16dp"
-                android:layout_marginStart="24dp"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>
